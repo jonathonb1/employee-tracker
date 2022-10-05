@@ -296,3 +296,66 @@ updateEmployeeRole = () => {
         })
     })
 }
+
+updateEmployeesManager = () => {
+    connection.query(`SELECT * FROM employee;`, (err, res) => {
+        if (err) throw err;
+        let employees = res.map(employee => ({name: employee.first_name + ' ' + employee.last_name, value: employee.employee_id }));
+        inquirer.prompt([
+            {
+                name: 'employee',
+                type: 'rawlist',
+                message: 'Which employee are you updating?',
+                choices: employees
+            },
+            {
+                name: 'newManager',
+                type: 'rawlist',
+                message: 'Who is their new manager?',
+                choices: employees
+            },
+        ]).then((response) => {
+            connection.query(`UPDATE employee SET ? WHERE ?`, 
+            [
+                {
+                    manager_id: response.newManager,
+                },
+                {
+                    employee_id: response.employee,
+                },
+            ], 
+            (err, res) => {
+                if (err) throw err;
+                console.log(`\n Successfully updated in the database! \n`);
+                startApp();
+            })
+        })
+    })
+};
+
+removeADepartment = () => {
+    connection.query(`SELECT * FROM department ORDER BY department_id ASC;`, (err, res) => {
+        if (err) throw err;
+        let departments = res.map(department => ({name: department.department_name, value: department.department_id }));
+        inquirer.prompt([
+            {
+            name: 'deptName',
+            type: 'rawlist',
+            message: 'Select a department to remove?',
+            choices: departments
+            },
+        ]).then((response) => {
+            connection.query(`DELETE FROM department WHERE ?`, 
+            [
+                {
+                    department_id: response.deptName,
+                },
+            ], 
+            (err, res) => {
+                if (err) throw err;
+                console.log(`\n Successfully removed the department from the database! \n`);
+                startApp();
+            })
+        })
+    })
+}

@@ -17,7 +17,7 @@ VALUES ('Account Executive', 80000, 1),
 ('Helpdesk Tecnician', 70000, 4),
 ('Helpdesk Manager', 100000, 4),
 ('Helpdesk Director', 180000,4),
-('Chief financial Officer', 280000, 5),
+('Chief Financial Officer', 280000, 5),
 ('Chief Operational Officer', 280000, 5), 
 ('Chief Executive Officer', 300000, 5);
 
