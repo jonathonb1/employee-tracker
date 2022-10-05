@@ -150,7 +150,7 @@ addADepartment = () => {
         {
         name: 'newDept',
         type: 'input',
-        message: 'What is the name of the department you want to add?'   
+        message: 'What is the name of the department?'   
         }
     ]).then((response) => {
         connection.query(`INSERT INTO department SET ?`, 
@@ -173,17 +173,17 @@ addARole = () => {
             {
             name: 'title',
             type: 'input',
-            message: 'What is the name of the role you want to add?'   
+            message: 'What is the new role name?'   
             },
             {
             name: 'salary',
             type: 'input',
-            message: 'What is the salary of the role you want to add?'   
+            message: 'Please add a salary for the new role.'   
             },
             {
             name: 'deptName',
             type: 'rawlist',
-            message: 'Which department do you want to add the new role to?',
+            message: 'Which department will the new role be added to?',
             choices: departments
             },
         ]).then((response) => {
@@ -213,23 +213,23 @@ addAnEmployee = () => {
                 {
                     name: 'firstName',
                     type: 'input',
-                    message: 'What is the new employee\'s first name?'
+                    message: 'Please enter the first name.'
                 },
                 {
                     name: 'lastName',
                     type: 'input',
-                    message: 'What is the new employee\'s last name?'
+                    message: 'Please enter the last name.'
                 },
                 {
                     name: 'role',
                     type: 'rawlist',
-                    message: 'What is the new employee\'s title?',
+                    message: 'Please enter a title.',
                     choices: roles
                 },
                 {
                     name: 'manager',
                     type: 'rawlist',
-                    message: 'Who is the new employee\'s manager?',
+                    message: 'Who is their manager?',
                     choices: employees
                 }
             ]).then((response) => {
@@ -256,3 +256,43 @@ addAnEmployee = () => {
         })
     })
 };
+
+updateEmployeeRole = () => {
+    connection.query(`SELECT * FROM role;`, (err, res) => {
+        if (err) throw err;
+        let roles = res.map(role => ({name: role.title, value: role.role_id }));
+        connection.query(`SELECT * FROM employee;`, (err, res) => {
+            if (err) throw err;
+            let employees = res.map(employee => ({name: employee.first_name + ' ' + employee.last_name, value: employee.employee_id }));
+            inquirer.prompt([
+                {
+                    name: 'employee',
+                    type: 'rawlist',
+                    message: 'Which employee would you like to update?',
+                    choices: employees
+                },
+                {
+                    name: 'newRole',
+                    type: 'rawlist',
+                    message: 'What is their new role?',
+                    choices: roles
+                },
+            ]).then((response) => {
+                connection.query(`UPDATE employee SET ? WHERE ?`, 
+                [
+                    {
+                        role_id: response.newRole,
+                    },
+                    {
+                        employee_id: response.employee,
+                    },
+                ], 
+                (err, res) => {
+                    if (err) throw err;
+                    console.log(`\n Successfully updated employee's role in the database! \n`);
+                    startApp();
+                })
+            })
+        })
+    })
+}
