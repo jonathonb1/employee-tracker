@@ -9,7 +9,7 @@ INSERT INTO role (title, salary, department_id)
 VALUES ('Account Executive', 80000, 1),
 ('Sr. Account Executive', 100000, 1),
 ('Sales Director', 1800000, 1),
-('HR Staff' 75000, 2),
+('HR Staff', 75000, 2),
 ('HR Director', 100000, 2),
 ('Jr Developer', 90000, 3),
 ('Sr Developer', 150000, 3),
