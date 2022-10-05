@@ -1,43 +1,66 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
 const cTable = require('console.table');
-require ('dotenv').config();
+require('dotenv').config();
 
 const connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
     password: 'rootpassword',
-    database:  'employeeDB',
+    // database: 'employeeDB',
 });
 
 connection.connect((err) => {
     if (err) throw err;
     console.log(`You are connected as ${connection.threadId} \n`);
-    startApp();
+    connectionMessage();
+    
 });
+
+connectionMessage = () => {
+    console.log("*************************************")
+    console.log("**** EMPLOYEE MANAGEMENT PROGRAM ****")
+    console.log("*************************************")
+    startApp();
+};
+
+
 
 startApp = () => {
     inquirer.prompt([
         {
             name: 'initialInquiry',
             type: 'rawlist',
-            message: 'Welcome to your Employee Managmeent Applicaiton!  How can I help you?',
-            choices: ['View departments', 'View roles', 'View employees', 'View employees by manager', 'Add a department', 'Add a role', 'Add employee', 'Update employee role', 'Update employee manager', 'Remove department', 'Remove employee', 'Remove role', 'View salary by department', 'Exit']
+            message: 'Welcome to the employee management program. What would you like to do?',
+            choices: ['View all departments', 
+            'View all roles',
+            'View all employees', 
+            'View all employees by manager', 
+            'Add a department', 
+            'Add a role', 
+            'Add an employee', 
+            'Update employee role', 
+            'Update employee manager', 
+            'Remove a department', 
+            'Remove a role', 
+            'Remove an employee', 
+            'View salary of department', 
+            'Exit']
         }
     ]).then((response) => {
         switch (response.initialInquiry) {
-            case 'View departments':
-                viewDepartments();    
+            case 'View all departments':
+                viewAllDepartments();    
                 break;
-            case 'View roles':
-                viewRoles();
+            case 'View all roles':
+                viewAllRoles();
                 break;
-            case 'View employees':
-                viewEmployees();
+            case 'View all employees':
+                viewAllEmployees();
                 break;
-            case 'View employees by manager':
-                viewEmployeesByManager();
+            case 'View all employees by manager':
+                viewAllEmployeesByManager();
             break;
             case 'Add a department':
                 addADepartment();
@@ -45,32 +68,33 @@ startApp = () => {
             case 'Add a role':
                 addARole();
             break;
-            case 'Add employee':
-                addEmployee();
+            case 'Add an employee':
+                addAnEmployee();
             break;
             case 'Update employee role':
                 updateEmployeeRole();
             break;
             case 'Update employee manager':
-                updateEmployeeManager();
+                updateEmployeesManager();
             break;
-            case 'Remove department':
-                removeDepartment();
+            case 'Remove a department':
+                removeADepartment();
             break;
-            case 'Remove employee':
-                removeEmployee();
+            case 'Remove a role':
+                removeARole();
             break;
-            case 'Remove role':
-                removeRole();
+            case 'Remove an employee':
+                removeAnEmployee();
             break;
             case 'View salary by department':
-                viewSalaryByDepartment();
+                viewDepartmentSalary();
             break;
-            case 'Exit':
+            case 'Exit program':
                 connection.end();
-                console.log('\n You have exited your Employee Management Application. Thanks for using! \n');
+                console.log('\n You have exited the employee management program. Thanks for using! \n');
                 return;
             default:
                 break;
         }
+    })
 }
