@@ -29,10 +29,17 @@ A command line applicaiton for managing a company's employees using node, inquir
 ---
 
 ## Link
+  https://youtu.be/oyCT9SvCdOE
 
 ---
 
 ## Screenshots:
+<<<<<<< HEAD
+=======
+
+![Screen Shot 2022-10-05 at 9 10 18 PM](https://user-images.githubusercontent.com/102259821/194212078-1a525e25-bb6e-40ee-9b8d-7c328edaf103.png)
+
+>>>>>>> cd41d124f7f5ff0ab148b78a3d82a04426434d58
 
 #
 
