@@ -32,7 +32,7 @@ A command line applicaiton for managing a company's employees using node, inquir
 
 ---
 
-## Screenshot:
+## Screenshots:
 
 #
 
