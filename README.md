@@ -29,6 +29,7 @@ A command line applicaiton for managing a company's employees using node, inquir
 ---
 
 ## Link
+  https://youtu.be/oyCT9SvCdOE
 
 ---
 
