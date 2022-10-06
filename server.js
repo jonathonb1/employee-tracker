@@ -63,13 +63,13 @@ startApp = () => {
                 viewEmployeesByManager();
             break;
             case 'Add a department':
-                addADepartment();
+                addDepartment();
             break;
             case 'Add a role':
-                addARole();
+                addRole();
             break;
             case 'Add an employee':
-                addAnEmployee();
+                addEmployee();
             break;
             case 'Update employee role':
                 updateEmployeeRole();
@@ -145,7 +145,7 @@ viewEmployeesByManager = () => {
     })
 }
 
-addADepartment = () => {
+addDepartment = () => {
     inquirer.prompt([
         {
         name: 'newDept',
@@ -165,7 +165,7 @@ addADepartment = () => {
     })
 };
 
-addARole = () => {
+addRole = () => {
     connection.query(`SELECT * FROM department;`, (err, res) => {
         if (err) throw err;
         let departments = res.map(department => ({name: department.department_name, value: department.department_id }));
@@ -202,7 +202,7 @@ addARole = () => {
     })
 };
 
-addAnEmployee = () => {
+addEmployee = () => {
     connection.query(`SELECT * FROM role;`, (err, res) => {
         if (err) throw err;
         let roles = res.map(role => ({name: role.title, value: role.role_id }));
@@ -333,7 +333,7 @@ updateEmployeesManager = () => {
     })
 };
 
-removeADepartment = () => {
+removeDepartment = () => {
     connection.query(`SELECT * FROM department ORDER BY department_id ASC;`, (err, res) => {
         if (err) throw err;
         let departments = res.map(department => ({name: department.department_name, value: department.department_id }));
@@ -341,7 +341,7 @@ removeADepartment = () => {
             {
             name: 'deptName',
             type: 'rawlist',
-            message: 'Select a department to remove?',
+            message: 'Select a department to remove.',
             choices: departments
             },
         ]).then((response) => {
@@ -359,3 +359,58 @@ removeADepartment = () => {
         })
     })
 }
+
+removeRole = () => {
+    connection.query(`SELECT * FROM role ORDER BY role_id ASC;`, (err, res) => {
+        if (err) throw err;
+        let roles = res.map(role => ({name: role.title, value: role.role_id }));
+        inquirer.prompt([
+            {
+            name: 'title',
+            type: 'rawlist',
+            message: 'Select a role to remove.',
+            choices: roles
+            },
+        ]).then((response) => {
+            connection.query(`DELETE FROM role WHERE ?`, 
+            [
+                {
+                    role_id: response.title,
+                },
+            ], 
+            (err, res) => {
+                if (err) throw err;
+                console.log(`\n Successfully removed the role from the database! \n`);
+                startApp();
+            })
+        })
+    })
+}
+
+removeAnEmployee = () => {
+    connection.query(`SELECT * FROM employee ORDER BY employee_id ASC;`, (err, res) => {
+        if (err) throw err;
+        let employees = res.map(employee => ({name: employee.first_name + ' ' + employee.last_name, value: employee.employee_id }));
+        inquirer.prompt([
+            {
+                name: 'employee',
+                type: 'rawlist',
+                message: 'Which employee are you removing?',
+                choices: employees
+            },
+        ]).then((response) => {
+            connection.query(`DELETE FROM employee WHERE ?`, 
+            [
+                {
+                    employee_id: response.employee,
+                },
+            ], 
+            (err, res) => {
+                if (err) throw err;
+                console.log(`\n Successfully removed the employee from the database! \n`);
+                startApp();
+            })
+        })
+    })
+}
+
