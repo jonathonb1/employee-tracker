@@ -25,7 +25,7 @@ A command line applicaiton for managing a company's employees using node, inquir
 <img src="https://www.tomsquest.com/img/posts/2018-10-02-better-npm-ing/npm_logo.png" width="100" height="100">
 <img src="https://www.mysql.com/common/logos/logo-mysql-170x115.png" width="100" height="100">
 
---
+---
 
 ## link
 
