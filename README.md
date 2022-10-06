@@ -47,7 +47,11 @@ A command line applicaiton for managing a company's employees using node, inquir
 
 - Install required node packages by running "npm i -y" in your terminal or bash window.
 
-- Create schema of database tables by running all queries in <mark>schema.sql</mark>
+- Create schema of database tables by running all queries in "schema.sql"
+
+- Set up test records yourself or run queries in "seed.sql"
+
+- Start application by running "node server.js" or "npm start"
 
 ---
 
