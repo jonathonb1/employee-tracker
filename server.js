@@ -91,7 +91,7 @@ startApp = () => {
             break;
             case 'Exit':
                 connection.end();
-                console.log('\n You have exited the program. Have a great day! \n');
+                console.log('\n Thank you for using your Employee Tracker application.  HAVE A GREAT DAY! \n');
                 return;
             default:
                 break;
@@ -387,7 +387,7 @@ removeRole = () => {
     })
 }
 
-removeAnEmployee = () => {
+removeEmployee = () => {
     connection.query(`SELECT * FROM employee ORDER BY employee_id ASC;`, (err, res) => {
         if (err) throw err;
         let employees = res.map(employee => ({name: employee.first_name + ' ' + employee.last_name, value: employee.employee_id }));
@@ -408,6 +408,34 @@ removeAnEmployee = () => {
             (err, res) => {
                 if (err) throw err;
                 console.log(`\n Successfully removed the employee from the database! \n`);
+                startApp();
+            })
+        })
+    })
+}
+
+viewDepartmentSalary = () => {
+    connection.query(`SELECT * FROM department ORDER BY department_id ASC;`, (err, res) => {
+        if (err) throw err;
+        let departments = res.map(department => ({name: department.department_name, value: department.department_id }));
+        inquirer.prompt([
+            {
+            name: 'deptName',
+            type: 'rawlist',
+            message: 'Which department salaries would you like to view?',
+            choices: departments
+            },
+        ]).then((response) => {
+            connection.query(`SELECT department_id, SUM(role.salary) AS total_salary FROM role WHERE ?`, 
+            [
+                {
+                    department_id: response.deptName,
+                },
+            ], 
+            (err, res) => {
+                if (err) throw err;
+                console.log(`\n The total salary used of ${response.deptName} department is $ \n`);
+                console.table('\n', res, '\n');
                 startApp();
             })
         })
