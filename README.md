@@ -4,6 +4,7 @@
 
 - [Description](#Description)
 - [Technologies](#Technologies)
+- [Link](#Link)
 - [Screenshots](#Screenshots)
 - [Link to video](#link)
 - [User Instructions](#User-Instructions)
@@ -27,7 +28,7 @@ A command line applicaiton for managing a company's employees using node, inquir
 
 ---
 
-## link
+## Link
 
 ---
 
